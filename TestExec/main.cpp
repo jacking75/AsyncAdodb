@@ -9,7 +9,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	setlocale(LC_ALL, "");
 
 	TestExec();
-	TestInsertSP();
+	//TestInsertSP();
 
 	getchar();
 	return 0;

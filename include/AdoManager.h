@@ -288,8 +288,9 @@ namespace AsyncAdodb
 					m_pConnection->put_Provider((_bstr_t)m_Config.GetProvider().c_str());
 				}
 
-				m_pConnection->Open((_bstr_t)m_Config.GetConnectionString().c_str(), (_bstr_t)m_Config.GetUserID().c_str(),
-					(_bstr_t)m_Config.GetPassword().c_str(), NULL);
+				m_pConnection->Open((_bstr_t)m_Config.GetConnectionString().c_str(), 
+							(_bstr_t)m_Config.GetUserID().c_str(),
+							(_bstr_t)m_Config.GetPassword().c_str(), NULL);
 
 				if (m_pConnection->GetState() == adStateOpen) {
 					m_pConnection->DefaultDatabase = m_Config.GetInitCatalog().c_str();

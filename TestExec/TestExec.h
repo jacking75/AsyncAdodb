@@ -14,10 +14,10 @@ CREATE TABLE [dbo].[Test_Temp2](
 void TestExec()
 {
 	AsyncAdodb::DBConfig config;
-	config.Setting( L"gunz2db\\gunz2_db", 
-						L"dev", 
-						L"dev", 
-						L"G2_GAMEDB", 
+	config.Setting( L"localhost\\SQLEXPRESS", 
+						L"admin", 
+						L"123qwe", 
+						L"TestGameDB", 
 						3, 
 						true, 
 						3
