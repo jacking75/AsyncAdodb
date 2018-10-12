@@ -1266,53 +1266,7 @@ namespace AsyncAdodb
 
 
 
-	/**
-	\brief		객체 생성시 커넥션풀로부터 ADO객체를 얻은 후 소멸시 ADO객체를 커넥션풀로 돌려준다.
-	\par		부가기능 명시적 트랜잭션
-	\author		김영찬
-	*/
-	class CScopedAdo
-	{
-	public:
-		explicit CScopedAdo(AdoDB* &pAdo, DBManager* pAdoManager, bool bAutoCommit = false)
-			:m_pAdoManager(pAdoManager)
-		{
-			m_pAdo = pAdoManager->GetDB();
-			pAdo = m_pAdo;
-			pAdo->SetAutoCommit(bAutoCommit);
-
-			if (bAutoCommit == false)
-			{
-				pAdo->BeginTransaction();
-			}
-		}
-
-		~CScopedAdo()
-		{
-			if (m_pAdo->CanAutoCommit() == false)
-			{
-				if (m_pAdo->CanGetParamGetFiled() && m_pAdo->CanCommitTransaction())
-				{
-					m_pAdo->CommitTransaction();
-				}
-				else
-				{
-					m_pAdo->RollbackTransaction();
-				}
-			}
-
-			m_pAdo->Init();
-			m_pAdo->Release();
-			m_pAdoManager->PutDB(m_pAdo);
-		}
-
-	private:
-		DBManager* m_pAdoManager;
-		AdoDB* m_pAdo;
-	};
-
-
-
+	
 
 	class DBManager
 	{
@@ -1370,4 +1324,49 @@ namespace AsyncAdodb
 		CSSpinLockWin32 m_Lock;
 	};
 
+
+	/**
+	\brief		객체 생성시 커넥션풀로부터 ADO객체를 얻은 후 소멸시 ADO객체를 커넥션풀로 돌려준다.
+	\par		부가기능 명시적 트랜잭션
+	\author		김영찬
+	*/
+	class CScopedAdo
+	{
+	public:
+		explicit CScopedAdo(AdoDB* &pAdo, DBManager* pAdoManager, bool bAutoCommit = false)
+			:m_pAdoManager(pAdoManager)
+		{
+			m_pAdo = pAdoManager->GetDB();
+			pAdo = m_pAdo;
+			pAdo->SetAutoCommit(bAutoCommit);
+
+			if (bAutoCommit == false)
+			{
+				pAdo->BeginTransaction();
+			}
+		}
+
+		~CScopedAdo()
+		{
+			if (m_pAdo->CanAutoCommit() == false)
+			{
+				if (m_pAdo->CanGetParamGetFiled() && m_pAdo->CanCommitTransaction())
+				{
+					m_pAdo->CommitTransaction();
+				}
+				else
+				{
+					m_pAdo->RollbackTransaction();
+				}
+			}
+
+			m_pAdo->Init();
+			m_pAdo->Release();
+			m_pAdoManager->PutDB(m_pAdo);
+		}
+
+	private:
+		DBManager* m_pAdoManager;
+		AdoDB* m_pAdo;
+	};
 }

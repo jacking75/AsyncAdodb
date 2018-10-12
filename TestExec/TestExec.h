@@ -1,8 +1,4 @@
-﻿// TestExec.cpp : 콘솔 응용 프로그램에 대한 진입점을 정의합니다.
-//
-
-#include "stdafx.h"
-#include <iostream>
+﻿#include <iostream>
 #include "..\include\AdoManager.h"
 
 
@@ -15,10 +11,8 @@ CREATE TABLE [dbo].[Test_Temp2](
 ) ON [PRIMARY]
 */
 
-int _tmain(int argc, _TCHAR* argv[])
+void TestExec()
 {
-	setlocale(LC_ALL, "");
-	
 	AsyncAdodb::DBConfig config;
 	config.Setting( L"gunz2db\\gunz2_db", 
 						L"dev", 
@@ -42,7 +36,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		if( !pAdo->IsSuccess() ) 
 		{
 			std::wcout << L"쿼리문 실패" << std::endl;
-			return 0;
+			return;
 		}
 		else
 		{
@@ -61,7 +55,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		if( !pAdo->IsSuccess() ) 
 		{
 			std::wcout << L"쿼리문 실패" << std::endl;
-			return 0;
+			return;
 		}
 		else
 		{
@@ -82,7 +76,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		if( !pAdo->IsSuccess() )
 		{
 			std::wcout << L"select 쿼리문 실패" << std::endl;
-			return 0;
+			return;
 		}
 
 		WCHAR szID[16] = {0,};
@@ -96,7 +90,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		else
 		{
 			std::wcout << L"jacking3는 없습니다" << std::endl;
-			return 0;
+			return;
 		}
 
 		std::wcout << L"ID : " << szID << std::endl;
@@ -104,8 +98,4 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	delete pDBmanager;
-	
-	getchar();
-
-	return 0;
 }
