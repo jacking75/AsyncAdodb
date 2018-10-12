@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include "AdoManager.h"
+#include "..\include\AdoManager.h"
 
 
 /*
@@ -19,7 +19,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	setlocale(LC_ALL, "");
 	
-	asyncadodblib::DBConfig config;
+	AsyncAdodb::DBConfig config;
 	config.Setting( L"gunz2db\\gunz2_db", 
 						L"dev", 
 						L"dev", 
@@ -29,15 +29,15 @@ int _tmain(int argc, _TCHAR* argv[])
 						3
 					);
 
-	asyncadodblib::DBManager* pDBmanager = new asyncadodblib::DBManager( config );
+	auto pDBmanager = new AsyncAdodb::DBManager( config );
 		
 	// SQL Query - insert: auto commit
 	{
-		asyncadodblib::AdoDB* pAdo = nullptr;
-		asyncadodblib::CScopedAdo scopedado( pAdo, pDBmanager, true );
+		AsyncAdodb::AdoDB* pAdo = nullptr;
+		AsyncAdodb::CScopedAdo scopedado( pAdo, pDBmanager, true );
 
 		pAdo->SetQuery( L"Insert Into Test_Temp2 Values( 'jacking1', 1111 , 1, 100)" );
-		pAdo->Execute(adCmdText);
+		pAdo->Execute(::adCmdText);
 		
 		if( !pAdo->IsSuccess() ) 
 		{
@@ -52,8 +52,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// SQL Query - insert
 	{
-		asyncadodblib::AdoDB* pAdo = nullptr;
-		asyncadodblib::CScopedAdo scopedado( pAdo, pDBmanager, false );
+		AsyncAdodb::AdoDB* pAdo = nullptr;
+		AsyncAdodb::CScopedAdo scopedado( pAdo, pDBmanager, false );
 
 		pAdo->SetQuery( L"Insert Into Test_Temp2 Values( 'jacking2', 1112, 1, 100 )" );
 		pAdo->Execute(adCmdText);
@@ -73,8 +73,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// SQL Query - select
 	{
-		asyncadodblib::AdoDB* pAdo = nullptr;
-		asyncadodblib::CScopedAdo scopedado( pAdo, pDBmanager, true );
+		AsyncAdodb::AdoDB* pAdo = nullptr;
+		AsyncAdodb::CScopedAdo scopedado( pAdo, pDBmanager, true );
 
 		pAdo->SetQuery(L"SELECT ID, Code FROM Test_Temp2 WHERE ID='jacking3'");
 		pAdo->Execute(adCmdText);
