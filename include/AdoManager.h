@@ -66,13 +66,14 @@ namespace AsyncAdodb
 		}
 
 		/// <summary>
-		/// DB DSN 주속 설정 </summary>
+		/// DB DSN 주소 설정 </summary>
 		void SetDSN(wchar_t* pszString)
 		{
+			m_strDataSource.clear();
 			m_strDSN = L";DSN=";
 			m_strDSN += pszString;
 		}
-
+				
 		/// <summary> 
 		/// 명령 대기 시간 설정. SQL 명령을 내린 후 지정한 시간까지만 처리를 기다림 </summary>
 		void SetCommandTimeout(int nCommendTimeout) { m_nCommandTimeout = nCommendTimeout; }

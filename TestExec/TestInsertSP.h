@@ -72,7 +72,7 @@ END
 void TestInsertSP()
 {
 	AsyncAdodb::DBConfig config;
-	config.Setting(L"localhost",
+	config.Setting(L"localhost\\SQLEXPRESS",
 		L"admin",
 		L"123qwe",
 		L"TestGameDB",

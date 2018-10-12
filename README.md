@@ -1,10 +1,10 @@
 # AsyncAdodb
-1 header file로 만든 C++ ADO 라이브러리이다.  
+1 header file로 만든 C++ ADO 라이브러리이다(include 디렉토리에 있는 "AdoManager.h").  
 이 라이브러리는 [네이버의 온라인 서버 제작자 모임](https://cafe.naver.com/ongameserver/3412) 의 멤버인 김영찬님이 공개한 라이브러리를 수정한 버전이다.  
 
        
   
-## ADO 연결 문자열
+## [펌] ADO 연결 문자열
 출처는 알 수 없음.  
   
 ADO를 사용하려면 ConnectionString이 필요한다. 이걸 실제로 잘 만들어 내는 방법에 대한 이야기이다.  
@@ -144,15 +144,14 @@ http://msdn.microsoft.com/library/default.asp?url=/library/en-us/ado270/htm/mdre
   
   
 ## 참고 자료
-- [ado ms-sql, mysql](http://sakbals.tistory.com/entry/%EC%B4%88%EA%B8%89-%EA%B0%84%EB%8B%A8%ED%95%98%EA%B2%8C-ADO-oledb-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)
-- [C++로 Mysql을 ADO로 연결하려고 하는데 출력시 한글이 깨집니다](https://kldp.org/node/142606)
-- [msado15.dll을 이용해서 MFC에서 ADO로 데이테베이스 억세스하기](http://wwwi.tistory.com/80)
-- [(일어) Visual Studio で MySQL データベースに接続する](http://d.hatena.ne.jp/hilapon/20151215/1450166056)
-- [How To Connect C++ To Mysql](https://www.dreamincode.net/forums/topic/88724-how-to-connect-c-to-mysql/)
-- [(일어) Connector/ODBC アプリケーション別情報](http://download.nust.na/pub6/mysql/doc/refman/5.1/ja/myodbc-usagenotes-apptips.html)
-- [(일어) 接続文字列一覧](http://kojama.la.coocan.jp/works/rdbms/conn/connstr.html)
-- [Tutorial: Moving from MySQL to ADODB](http://web.unife.it/lib/adodb/docs/tute.htm)
-- [ADO Connection Strings](https://www.codeproject.com/Articles/2304/ADO-Connection-Strings)
+- [MySQL OLEDB, ODBC(DSN 등록 안함) 연결하기](https://m.blog.naver.com/kilsu1024/110162885226 )
+- [ado ms-sql, mysql](http://sakbals.tistory.com/entry/%EC%B4%88%EA%B8%89-%EA%B0%84%EB%8B%A8%ED%95%98%EA%B2%8C-ADO-oledb-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0 )
+- [C++로 Mysql을 ADO로 연결하려고 하는데 출력시 한글이 깨집니다](https://kldp.org/node/142606 )
+- [msado15.dll을 이용해서 MFC에서 ADO로 데이테베이스 억세스하기](http://wwwi.tistory.com/80 )
+- [(일어) Connector/ODBC アプリケーション別情報](http://download.nust.na/pub6/mysql/doc/refman/5.1/ja/myodbc-usagenotes-apptips.html )
+- [(일어) 접속 문자열 리스트](http://kojama.la.coocan.jp/works/rdbms/conn/connstr.html )
+- [Tutorial: Moving from MySQL to ADODB](http://web.unife.it/lib/adodb/docs/tute.htm )
+- [ADO Connection Strings](https://www.codeproject.com/Articles/2304/ADO-Connection-Strings )
 
 
 
