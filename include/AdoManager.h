@@ -31,127 +31,127 @@ namespace AsyncAdodb
 	{
 	public:
 		DBConfig()
-			:m_nConnectionTimeout(0),
-			m_nCommandTimeout(0),
-			m_bRetryConnection(false),
-			m_bCanWriteErrorLog(false)
+			:m_ConnectionTimeout(0),
+			m_CommandTimeout(0),
+			m_IsRetryConnection(false),
+			m_IsCanWriteErrorLog(false)
 		{
 		}
 
 		/// <summary>
 		/// 접속 정보 설정 </summary>
-		void Setting(const std::wstring strDBAddress,
-			const std::wstring strID,
-			const std::wstring strPassWord,
-			const std::wstring strDBName,
-			const int nConnectionTimeOut,
-			const bool bIsRetryConnection,
-			const int nMaxConnectionPool,
-			const bool bCanWriteErrorLog = true
+		void Setting(const std::wstring dbAddress,
+			const std::wstring id,
+			const std::wstring passWord,
+			const std::wstring dbName,
+			const int connectionTimeOut,
+			const bool isRetryConnection,
+			const int maxConnectionPool,
+			const bool isCanWriteErrorLog = true
 		)
 		{
-			m_strDataSource = L";Data Source=";
-			m_strDataSource += strDBAddress;
+			m_DataSource = L";Data Source=";
+			m_DataSource += dbAddress;
 			SetProvider();
 
-			m_strUserID = strID;
-			m_strPassword = strPassWord;
-			m_strInitialCatalog = strDBName;
+			m_UserID = id;
+			m_Password = passWord;
+			m_InitialCatalog = dbName;
 
-			m_nConnectionTimeout = nConnectionTimeOut;
-			m_bRetryConnection = bIsRetryConnection;
-			m_nMaxConnectionPool = nMaxConnectionPool;
+			m_ConnectionTimeout = connectionTimeOut;
+			m_IsRetryConnection = isRetryConnection;
+			m_MaxConnectionPool = maxConnectionPool;
 
-			m_bCanWriteErrorLog = bCanWriteErrorLog;
+			m_IsCanWriteErrorLog = isCanWriteErrorLog;
 		}
 
 		/// <summary>
 		/// DB DSN 주소 설정 </summary>
 		void SetDSN(wchar_t* pszString)
 		{
-			m_strDataSource.clear();
-			m_strDSN = L";DSN=";
-			m_strDSN += pszString;
+			m_DataSource.clear();
+			m_DSN = L";DSN=";
+			m_DSN += pszString;
 		}
 				
 		/// <summary> 
 		/// 명령 대기 시간 설정. SQL 명령을 내린 후 지정한 시간까지만 처리를 기다림 </summary>
-		void SetCommandTimeout(int nCommendTimeout) { m_nCommandTimeout = nCommendTimeout; }
+		void SetCommandTimeout(int nCommendTimeout) { m_CommandTimeout = nCommendTimeout; }
 
 		std::wstring GetConnectionString()
 		{
-			if (m_strDataSource.empty())
+			if (m_DataSource.empty())
 			{
-				m_strConnectingString = m_strDSN;
+				m_ConnectingString = m_DSN;
 			}
 			else
 			{
-				m_strConnectingString = m_strDataSource;
+				m_ConnectingString = m_DataSource;
 			}
 
-			return m_strConnectingString;
+			return m_ConnectingString;
 		}
 
-		std::wstring& GetUserID() { return m_strUserID; }
+		std::wstring& GetUserID() { return m_UserID; }
 
-		std::wstring& GetPassword() { return m_strPassword; }
+		std::wstring& GetPassword() { return m_Password; }
 
-		std::wstring& GetInitCatalog() { return m_strInitialCatalog; }
+		std::wstring& GetInitCatalog() { return m_InitialCatalog; }
 
-		std::wstring& GetProvider() { return m_strProvider; }
+		std::wstring& GetProvider() { return m_Provider; }
 
-		int GetConnectionTimeout() { return m_nConnectionTimeout; }
+		int GetConnectionTimeout() { return m_ConnectionTimeout; }
 
-		bool IsCanRetryConnection() { return m_bRetryConnection; }
+		bool IsCanRetryConnection() { return m_IsRetryConnection; }
 
-		int GetMaxConnectionPool() { return m_nMaxConnectionPool; }
+		int GetMaxConnectionPool() { return m_MaxConnectionPool; }
 
-		bool CanWriteErrorLog() { return m_bCanWriteErrorLog; }
+		bool CanWriteErrorLog() { return m_IsCanWriteErrorLog; }
 
 
 	private:
 		/// <summary> DB API 프로바이더 설정 </summary>
 		void SetProvider(wchar_t* pString = L"SQLOLEDB.1")
 		{
-			m_strProvider = pString;
+			m_Provider = pString;
 		}
 
 
 		/// <summary> 연결 문자열 </summary>
-		std::wstring m_strConnectingString;
+		std::wstring m_ConnectingString;
 
 		/// <summary> 사용할 데이터베이스 이름 </summary>
-		std::wstring m_strInitialCatalog;
+		std::wstring m_InitialCatalog;
 
 		/// <summary> 데이터베이스 주속 </summary>
-		std::wstring m_strDataSource;
+		std::wstring m_DataSource;
 
 		/// <summary> DB 접속 아이디 </summary>
-		std::wstring m_strUserID;
+		std::wstring m_UserID;
 
 		/// <summary> DB 접속 패스워드 </summary>
-		std::wstring m_strPassword;
+		std::wstring m_Password;
 
 		/// <summary> DB API 프로바이더 </summary>
-		std::wstring m_strProvider;
+		std::wstring m_Provider;
 
 		/// <summary> DB의 DSN 주소 </summary>
-		std::wstring m_strDSN;
+		std::wstring m_DSN;
 
 		/// <summary>  </summary>
-		int m_nConnectionTimeout;
+		int m_ConnectionTimeout;
 
 		/// <summary> ?? </summary>
-		int m_nCommandTimeout;
+		int m_CommandTimeout;
 
 		/// <summary> 재연결 여부 </summary>
-		bool m_bRetryConnection;
+		bool m_IsRetryConnection;
 
 		/// <summary> 연결 풀의 최대 개수 </summary>
-		int m_nMaxConnectionPool;
+		int m_MaxConnectionPool;
 
 		/// <summary> 에러 로그 출력 가능 여부 </summary>
-		bool m_bCanWriteErrorLog;
+		bool m_IsCanWriteErrorLog;
 	};
 
 
@@ -228,18 +228,18 @@ namespace AsyncAdodb
 	class AdoDB
 	{
 	public:
-		AdoDB(DBConfig& adoconfig) :m_bAutoCommit(false),
-			m_Config(adoconfig),
+		AdoDB(DBConfig& adoConfig) :m_IsAutoCommit(false),
+			m_Config(adoConfig),
 			m_pConnection(nullptr),
 			m_pCommand(nullptr),
 			m_pRecordset(nullptr),
 
-			m_bCanGetParamGetFiled(true),
-			m_bCanCommitTransaction(true),
-			m_strParameterName(),
-			m_strColumnName(),
-			m_strQuery(),
-			m_strCommand()
+			m_CanGetParamGetFiled(true),
+			m_CanCommitTransaction(true),
+			m_ParameterName(),
+			m_ColumnName(),
+			m_QueryString(),
+			m_Command()
 		{
 			if (FAILED(::CoInitialize(nullptr)))
 			{
@@ -260,12 +260,12 @@ namespace AsyncAdodb
 		/// 초기화 - 연결풀에서 재사용하기 위해 이곳에서 초기화 시켜줌 </summary>
 		void Init()
 		{
-			m_bAutoCommit = false;
-			m_bCanGetParamGetFiled = true;
-			m_strParameterName.clear();
-			m_strColumnName.clear();
-			m_strQuery.clear();
-			m_strCommand.clear();
+			m_IsAutoCommit = false;
+			m_CanGetParamGetFiled = true;
+			m_ParameterName.clear();
+			m_ColumnName.clear();
+			m_QueryString.clear();
+			m_Command.clear();
 		}
 
 		/// <summary>
@@ -275,7 +275,7 @@ namespace AsyncAdodb
 		/// </summary>
 		bool Open(CursorLocationEnum CursorLocation = adUseClient)
 		{
-			m_strCommand = L"Open()";
+			m_Command = L"Open()";
 
 			try
 			{
@@ -308,7 +308,7 @@ namespace AsyncAdodb
 		}
 
 		/// <summary>
-		/// 재연결 옵션이 있을 경우 재연결 시도 </summary>
+		/// 재연결 옵션이 있을 경우 재 연결 시도 </summary>
 		bool RetryOpen()
 		{
 			if (m_pConnection->GetState() != adStateClosed) {
@@ -352,7 +352,7 @@ namespace AsyncAdodb
 
 		/// <summary>
 		/// DB 작업을 요청할 쿼리문 </summary>
-		void SetQuery(const WCHAR* pszQuery) { m_strQuery = pszQuery; }
+		void SetQuery(const WCHAR* pszQuery) { m_QueryString = pszQuery; }
 
 		/// <summary>
 		///  권한 지정 </summary>
@@ -362,16 +362,16 @@ namespace AsyncAdodb
 		/// 명시적 트랜잭션 사용. bAutoCommit이 false인 경우 명시적으로 커밋이나 롤백을 해야한다. </summary>
 		void SetAutoCommit(const bool bAutoCommit)
 		{
-			m_bAutoCommit = bAutoCommit;
+			m_IsAutoCommit = bAutoCommit;
 
-			if (m_bAutoCommit == false) {
-				m_bCanCommitTransaction = false;
+			if (m_IsAutoCommit == false) {
+				m_CanCommitTransaction = false;
 			}
 		}
 
 		/// <summary>
 		/// 자동 커밋 가능 여부 </summary>
-		bool CanAutoCommit() { return m_bAutoCommit; }
+		bool CanAutoCommit() { return m_IsAutoCommit; }
 
 		/// <summary>
 		/// 트랜잭션을 건다 </summary>
@@ -425,24 +425,24 @@ namespace AsyncAdodb
 		/// 쿼리 작업 성공 여부 </summary>
 		bool IsSuccess()
 		{
-			if (m_bCanGetParamGetFiled == false)
+			if (m_CanGetParamGetFiled == false)
 			{
 				dump_user_error();
 
-				m_strQuery.erase();
-				m_strCommand.erase();
-				m_strColumnName.erase();
-				m_strParameterName.erase();
+				m_QueryString.erase();
+				m_Command.erase();
+				m_ColumnName.erase();
+				m_ParameterName.erase();
 			}
 
-			return m_bCanGetParamGetFiled;
+			return m_CanGetParamGetFiled;
 		}
 
-		bool CanGetParamGetFiled() { return m_bCanGetParamGetFiled; }
+		bool CanGetParamGetFiled() { return m_CanGetParamGetFiled; }
 
-		void SetCommitTransaction() { m_bCanCommitTransaction = true; }
+		void SetCommitTransaction() { m_CanCommitTransaction = true; }
 
-		bool CanCommitTransaction() { return m_bCanCommitTransaction; }
+		bool CanCommitTransaction() { return m_CanCommitTransaction; }
 
 		/// <summary>
 		/// 로그 </summary>
@@ -462,7 +462,7 @@ namespace AsyncAdodb
 		/// ADO 시스템 에러와 관련된 로그 출력 </summary>
 		void dump_com_error(const _com_error& e)
 		{
-			m_bCanGetParamGetFiled = true;
+			m_CanGetParamGetFiled = true;
 
 			// 데이터를 가져올 수 없는 상황이므로 연결을 끊어버린다
 			if (e.Error() == 0X80004005) {
@@ -481,24 +481,24 @@ namespace AsyncAdodb
 		/// ADO를 사용 에러와 관련된 로그 출력 </summary>
 		void dump_user_error()
 		{
-			m_bCanGetParamGetFiled = true;
+			m_CanGetParamGetFiled = true;
 
 			if (m_Config.CanWriteErrorLog())
 			{
-				if (!m_strQuery.empty()) {
-					LOG(L"SQLQuery[%s]", m_strQuery.c_str());
+				if (!m_QueryString.empty()) {
+					LOG(L"SQLQuery[%s]", m_QueryString.c_str());
 				}
 
-				if (!m_strCommand.empty()) {
-					LOG(L"Command[%s]", m_strCommand.c_str());
+				if (!m_Command.empty()) {
+					LOG(L"Command[%s]", m_Command.c_str());
 				}
 
-				if (!m_strColumnName.empty()) {
-					LOG(L"Column[%s]", m_strColumnName.c_str());
+				if (!m_ColumnName.empty()) {
+					LOG(L"Column[%s]", m_ColumnName.c_str());
 				}
 
-				if (!m_strParameterName.empty()) {
-					LOG(L"Paramter[%s]", m_strParameterName.c_str());
+				if (!m_ParameterName.empty()) {
+					LOG(L"Paramter[%s]", m_ParameterName.c_str());
 				}
 			}
 		}
@@ -510,7 +510,7 @@ namespace AsyncAdodb
 		/// </summary>
 		bool GetFieldCount(OUT INT32& nValue)
 		{
-			m_strCommand = L"GetFieldCount()";
+			m_Command = L"GetFieldCount()";
 
 			try
 			{
@@ -531,7 +531,7 @@ namespace AsyncAdodb
 		/// </summary>
 		bool MoveNext()
 		{
-			m_strCommand = L"MoveNext()";
+			m_Command = L"MoveNext()";
 
 			try
 			{
@@ -552,7 +552,7 @@ namespace AsyncAdodb
 		/// </summary>
 		bool GetEndOfFile()
 		{
-			m_strCommand = _T("GetEndOfFile()");
+			m_Command = _T("GetEndOfFile()");
 			bool bEndOfFile = true;
 
 			try
@@ -577,7 +577,7 @@ namespace AsyncAdodb
 		/// </summary>
 		bool NextRecordSet()
 		{
-			m_strCommand = L"NextRecordSet()";
+			m_Command = L"NextRecordSet()";
 
 			_variant_t variantRec;
 			variantRec.intVal = 0;
@@ -603,7 +603,7 @@ namespace AsyncAdodb
 		/// </summary>
 		bool Execute(CommandTypeEnum CommandType = adCmdStoredProc, ExecuteOptionEnum OptionType = adOptionUnspecified)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return false;
 			}
 
@@ -611,7 +611,7 @@ namespace AsyncAdodb
 			{
 				if (m_pConnection->GetState() == adStateClosed && m_Config.IsCanRetryConnection())
 				{
-					m_strCommand = L"RetryOpen()";  	//재연결 시도
+					m_Command = L"RetryOpen()";  	//재연결 시도
 
 					if (RetryOpen() == false)
 					{
@@ -619,14 +619,14 @@ namespace AsyncAdodb
 					}
 					else
 					{
-						m_bCanGetParamGetFiled = true;
+						m_CanGetParamGetFiled = true;
 					}
 				}
 
-				m_strCommand = L"Execute()";
+				m_Command = L"Execute()";
 
 				m_pCommand->CommandType = CommandType;
-				m_pCommand->CommandText = m_strQuery.c_str();
+				m_pCommand->CommandText = m_QueryString.c_str();
 
 				if (m_Config.GetConnectionTimeout() != 0) {
 					m_pCommand->CommandTimeout = m_Config.GetConnectionTimeout();
@@ -651,8 +651,8 @@ namespace AsyncAdodb
 		/// </summary>
 		template<typename T> bool GetFieldValue(const WCHAR* szName, OUT T& Value)
 		{
-			m_strCommand = L"GetFieldValue(T)";
-			m_strColumnName = szName;
+			m_Command = L"GetFieldValue(T)";
+			m_ColumnName = szName;
 
 			try {
 				auto vFieldValue = m_pRecordset->GetCollect(szName);
@@ -671,15 +671,15 @@ namespace AsyncAdodb
 					break;
 				case VT_NULL:
 				case VT_EMPTY:
-					m_strColumnName += _T(" null value");
+					m_ColumnName += _T(" null value");
 					dump_user_error();
 					return FALSE;
 				default:
 					WCHAR sz[10] = { 0, };
-					m_strColumnName += L" type error(vt = ";
-					m_strColumnName += _itow_s(vFieldValue.vt, sz, 10);
-					m_strColumnName += L" ) ";
-					m_bCanGetParamGetFiled = false;
+					m_ColumnName += L" type error(vt = ";
+					m_ColumnName += _itow_s(vFieldValue.vt, sz, 10);
+					m_ColumnName += L" ) ";
+					m_CanGetParamGetFiled = false;
 					return FALSE;
 				}
 			}
@@ -699,9 +699,9 @@ namespace AsyncAdodb
 		/// </summary>
 		bool GetFieldValue(const WCHAR* szName, OUT WCHAR* pszValue, const UINT32 nSize)
 		{
-			m_strCommand = L"GetFieldValue(string)";
+			m_Command = L"GetFieldValue(string)";
 
-			m_strColumnName = szName;
+			m_ColumnName = szName;
 
 			try
 			{
@@ -710,18 +710,18 @@ namespace AsyncAdodb
 
 				if (vFieldValue.vt == VT_NULL || vFieldValue.vt == VT_EMPTY)
 				{
-					m_strColumnName += L" null value";
+					m_ColumnName += L" null value";
 					return false;
 				}
 				else if (vFieldValue.vt != VT_BSTR)
 				{
-					m_strColumnName += L" nonbstr type";
+					m_ColumnName += L" nonbstr type";
 					return false;
 				}
 
 				if (nSize < wcslen((WCHAR*)(_bstr_t(vFieldValue.bstrVal))))
 				{
-					m_strColumnName += L" string size overflow";
+					m_ColumnName += L" string size overflow";
 					return false;
 				}
 
@@ -747,8 +747,8 @@ namespace AsyncAdodb
 		/// </summary>
 		bool GetFieldValue(const WCHAR* pszName, OUT BYTE* pbyBuffer, const INT32 nBufferSize, OUT INT32& nReadSize)
 		{
-			m_strCommand = L"GetFieldValue(binary)";
-			m_strColumnName = pszName;
+			m_Command = L"GetFieldValue(binary)";
+			m_ColumnName = pszName;
 
 			try
 			{
@@ -756,12 +756,12 @@ namespace AsyncAdodb
 
 				if (vFieldValue.vt == VT_NULL)
 				{
-					m_strColumnName += L" null value";
+					m_ColumnName += L" null value";
 					return false;
 				}
 				else if (vFieldValue.vt != (VT_ARRAY | VT_UI1))
 				{
-					m_strColumnName += L" nonbinary type";
+					m_ColumnName += L" nonbinary type";
 					return false;
 				}
 
@@ -769,7 +769,7 @@ namespace AsyncAdodb
 
 				if (nBufferSize < pField->ActualSize || nBufferSize > 8060)
 				{
-					m_strColumnName += L" binary size overflow";
+					m_ColumnName += L" binary size overflow";
 					dump_user_error();
 					return false;
 				}
@@ -800,8 +800,8 @@ namespace AsyncAdodb
 				return;
 			}
 
-			m_strCommand = L"CreateParameter(T)";
-			m_strParameterName = pszName;
+			m_Command = L"CreateParameter(T)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -821,12 +821,12 @@ namespace AsyncAdodb
 		/// 정수/실수/날짜시간 타입의 null값 파라메터 생성 /// </summary
 		void CreateNullParameter(IN wchar_t* pszName, IN enum DataTypeEnum Type, IN enum ParameterDirectionEnum Direction)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return;
 			}
 
-			m_strCommand = L"CreateParameter(null)";
-			m_strParameterName = pszName;
+			m_Command = L"CreateParameter(null)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -851,12 +851,12 @@ namespace AsyncAdodb
 		void CreateParameter(IN wchar_t* pszName, IN enum DataTypeEnum Type, IN enum ParameterDirectionEnum Direction,
 			IN wchar_t* pValue, IN int nSize)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return;
 			}
 
-			m_strCommand = L"CreateParameter(TCHAR)";
-			m_strParameterName = pszName;
+			m_Command = L"CreateParameter(TCHAR)";
+			m_ParameterName = pszName;
 
 			_ASSERTE(nSize > 0 && "not allow 0 size!!");
 
@@ -890,14 +890,14 @@ namespace AsyncAdodb
 		void CreateParameter(IN wchar_t* pszName, IN enum DataTypeEnum Type, IN enum ParameterDirectionEnum Direction,
 			IN BYTE* pValue, IN int nSize)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return;
 			}
 
 			_ASSERTE(nSize > 0 && "not allow 0 size!!");
 
-			m_strCommand = L"CreateParameter(binary)";
-			m_strParameterName = pszName;
+			m_Command = L"CreateParameter(binary)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -947,8 +947,8 @@ namespace AsyncAdodb
 				return;
 			}
 
-			m_strCommand = L"Updatesarameter(T)";
-			m_strParameterName = pszName;
+			m_Command = L"Updatesarameter(T)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -966,12 +966,12 @@ namespace AsyncAdodb
 		/// 정수/실수/날짜시간 타입의 파라메터 값을 null로 변경 </summary
 		void UpdateNullParameter(IN wchar_t* pszName)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return;
 			}
 
-			m_strCommand = L"UpdateNullParameter(null)";
-			m_strParameterName = pszName;
+			m_Command = L"UpdateNullParameter(null)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -989,14 +989,14 @@ namespace AsyncAdodb
 		/// 문자열 타입 파라메터 변경, 길이 변수는 최소 0보다 커야 한다. null값 변경 TCHAR*에 NULL값을 넘긴다. </summary
 		void UpdateParameter(IN wchar_t* pszName, IN wchar_t* pValue, IN int nSize)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return;
 			}
 
 			_ASSERTE(nSize > 0 && "not allow 0 size!!");
 
-			m_strCommand = L"UpdateParameter(WCHAR)";
-			m_strParameterName = pszName;
+			m_Command = L"UpdateParameter(WCHAR)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -1022,14 +1022,14 @@ namespace AsyncAdodb
 		/// binary 타입 파라메터 변경, 길이 변수는 최소 0보다 커야 한다. null값 변경 BYTE*에 NULL값을 넘긴다. </summary
 		void UpdateParameter(IN wchar_t* pszName, IN BYTE* pValue, IN int nSize)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return;
 			}
 
 			_ASSERTE(nSize > 0 && "not allow 0 size!!");
 
-			m_strCommand = L"UpdateParameter(binary)";
-			m_strParameterName = pszName;
+			m_Command = L"UpdateParameter(binary)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -1080,10 +1080,10 @@ namespace AsyncAdodb
 				return false;
 			}
 
-			m_bCanGetParamGetFiled = false;
+			m_CanGetParamGetFiled = false;
 
-			m_strCommand = L"GetParameter(T)";
-			m_strParameterName = pszName;
+			m_Command = L"GetParameter(T)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -1103,15 +1103,15 @@ namespace AsyncAdodb
 					break;
 				case VT_NULL:
 				case VT_EMPTY:
-					m_strColumnName += L" null value";
+					m_ColumnName += L" null value";
 					dump_user_error();
 					return false;
 				default:
 					wchar_t sz[7] = { 0, };
-					m_strParameterName += L" type error(vt = ";
-					m_strParameterName += _itow_s(vFieldValue.vt, sz, 10);
-					m_strParameterName += L" ) ";
-					m_bCanGetParamGetFiled = false;
+					m_ParameterName += L" type error(vt = ";
+					m_ParameterName += _itow_s(vFieldValue.vt, sz, 10);
+					m_ParameterName += L" ) ";
+					m_CanGetParamGetFiled = false;
 					return false;
 				}
 			}
@@ -1121,9 +1121,9 @@ namespace AsyncAdodb
 				return false;
 			}
 
-			m_bCanGetParamGetFiled = true;
+			m_CanGetParamGetFiled = true;
 
-			return m_bCanGetParamGetFiled;
+			return m_CanGetParamGetFiled;
 		}
 
 		/**
@@ -1137,14 +1137,14 @@ namespace AsyncAdodb
 		/// </summary
 		bool GetParameter(IN wchar_t* pszName, OUT wchar_t* pValue, IN unsigned int nSize)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return false;
 			}
 
-			m_bCanGetParamGetFiled = false;
+			m_CanGetParamGetFiled = false;
 
-			m_strCommand = L"GetParameter(wchar_t*)";
-			m_strParameterName = pszName;
+			m_Command = L"GetParameter(wchar_t*)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -1152,17 +1152,17 @@ namespace AsyncAdodb
 
 				if (vFieldValue.vt == VT_NULL || vFieldValue.vt == VT_EMPTY)
 				{
-					m_strParameterName += L" null value";
+					m_ParameterName += L" null value";
 					return false;
 				}
 				else if (vFieldValue.vt != VT_BSTR)
 				{
-					m_strParameterName += L" nonString Type";
+					m_ParameterName += L" nonString Type";
 					return false;
 				}
 				else if (nSize < wcslen((wchar_t*)(_bstr_t(vFieldValue.bstrVal))))
 				{
-					m_strParameterName += L" string size overflow";
+					m_ParameterName += L" string size overflow";
 					return false;
 				}
 
@@ -1174,8 +1174,8 @@ namespace AsyncAdodb
 				return false;
 			}
 
-			m_bCanGetParamGetFiled = true;
-			return m_bCanGetParamGetFiled;
+			m_CanGetParamGetFiled = true;
+			return m_CanGetParamGetFiled;
 		}
 
 		/**
@@ -1189,14 +1189,14 @@ namespace AsyncAdodb
 		/// </summary
 		bool GetParameter(IN wchar_t* pszName, OUT BYTE* pBuffer, IN int inSize, OUT int& outSize)
 		{
-			if (!m_bCanGetParamGetFiled) {
+			if (!m_CanGetParamGetFiled) {
 				return false;
 			}
 
-			m_bCanGetParamGetFiled = false;
+			m_CanGetParamGetFiled = false;
 
-			m_strCommand = L"GetParameter(binary)";
-			m_strParameterName = pszName;
+			m_Command = L"GetParameter(binary)";
+			m_ParameterName = pszName;
 
 			try
 			{
@@ -1204,12 +1204,12 @@ namespace AsyncAdodb
 
 				if (VT_NULL == vFieldValue.vt)
 				{
-					m_strParameterName += L" null value";
+					m_ParameterName += L" null value";
 					return false;
 				}
 				else if ((VT_ARRAY | VT_UI1) != vFieldValue.vt)
 				{
-					m_strParameterName += L" nonbinary type";
+					m_ParameterName += L" nonbinary type";
 					return false;
 				}
 
@@ -1217,7 +1217,7 @@ namespace AsyncAdodb
 
 				if (ElementSize > inSize || inSize > 8060)
 				{
-					m_strParameterName += L" size overflow";
+					m_ParameterName += L" size overflow";
 					return false;
 				}
 
@@ -1233,8 +1233,8 @@ namespace AsyncAdodb
 				return false;
 			}
 
-			m_bCanGetParamGetFiled = true;
-			return m_bCanGetParamGetFiled;
+			m_CanGetParamGetFiled = true;
+			return m_CanGetParamGetFiled;
 		}
 
 
@@ -1244,22 +1244,22 @@ namespace AsyncAdodb
 		_CommandPtr m_pCommand;
 
 		/// <summary> 자동 커밋 여부. false인 경우 커밋이나 롤백을 명시적으로 사용해야 한다 </summary>
-		bool m_bAutoCommit;
+		bool m_IsAutoCommit;
 
 		/// <summary> DB 설정 정보 </summary>
 		DBConfig m_Config;
 
-		std::wstring m_strQuery;
+		std::wstring m_QueryString;
 
 		/// <summary> Ado 파리미터나 테이블의 필드를 읽을 수 있는지 여부 </summary>
-		bool m_bCanGetParamGetFiled;
+		bool m_CanGetParamGetFiled;
 
 		/// <summary> 커밋을 할 수 있는지 여부 </summary>
-		bool m_bCanCommitTransaction;
+		bool m_CanCommitTransaction;
 
-		std::wstring m_strCommand;
-		std::wstring m_strColumnName;
-		std::wstring m_strParameterName;
+		std::wstring m_Command;
+		std::wstring m_ColumnName;
+		std::wstring m_ParameterName;
 
 
 		AdoDB(const AdoDB&);
@@ -1272,11 +1272,12 @@ namespace AsyncAdodb
 
 	class DBManager
 	{
-		enum{MAX_ARRAY_SIZE=20};
+		enum{ MAX_ARRAY_SIZE=32 };
+
 	public:
 		explicit DBManager( DBConfig& dboconfig )
 		{
-			m_bSuccessConnection = true;
+			m_IsSuccessConnection = true;
 			int MaxConnectionPoolCount = dboconfig.GetMaxConnectionPool();
 
 			_ASSERTE( MaxConnectionPoolCount <= MAX_ARRAY_SIZE );
@@ -1287,24 +1288,24 @@ namespace AsyncAdodb
 
 				if( m_pAdoStack[i]->Open() == false )
 				{
-					m_bSuccessConnection = false;
+					m_IsSuccessConnection = false;
 					break;
 				}
 			}
 
-			m_nTopPos = m_nMaxAdo = MaxConnectionPoolCount - 1;
+			m_TopPos = m_MaxAdo = MaxConnectionPoolCount - 1;
 		}
 
 		// 연결 성공 여부
-		bool IsSuccessConnection() { return m_bSuccessConnection; }
+		bool IsSuccessConnection() { return m_IsSuccessConnection; }
 	
 		void PutDB( AdoDB* pAdo )
 		{
 			ScopedLock lock(m_Lock);
 			
-			_ASSERTE( m_nTopPos < m_nMaxAdo );
+			_ASSERTE( m_TopPos < m_MaxAdo );
 
-			m_pAdoStack[ ++m_nTopPos ] = pAdo;
+			m_pAdoStack[ ++m_TopPos ] = pAdo;
 			return;
 		}
 
@@ -1312,17 +1313,17 @@ namespace AsyncAdodb
 		{
 			ScopedLock lock(m_Lock);
 
-			_ASSERTE( m_nTopPos >= 0 );
+			_ASSERTE( m_TopPos >= 0 );
 			
-			return m_pAdoStack[ m_nTopPos-- ];
+			return m_pAdoStack[ m_TopPos-- ];
 		}
 
 	private:
-		int m_nTopPos;
-		int m_nMaxAdo;
-		bool m_bSuccessConnection;	 // 연결 성공 여부
+		int m_TopPos;
+		int m_MaxAdo;
+		bool m_IsSuccessConnection;	 // 연결 성공 여부
 	
-		AdoDB* m_pAdoStack[MAX_ARRAY_SIZE];
+		AdoDB* m_pAdoStack[MAX_ARRAY_SIZE]; //TODO: vector로 바꾸어서 외부 설정에 따라서 크기가 정해지도록
 		CSSpinLockWin32 m_Lock;
 	};
 
