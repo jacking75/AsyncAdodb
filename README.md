@@ -1,5 +1,5 @@
 # AsyncAdodb
-1 header file로 만든 C++ ADO 라이브러리이다(include 디렉토리에 있는 "AdoManager.h").  
+1 header file로 만든 C++ ADO 라이브러리이다(include 디렉토리에 있는 `AdoManager.h` ).  
 이 라이브러리는 [네이버의 온라인 서버 제작자 모임](https://cafe.naver.com/ongameserver/3412) 의 멤버인 김영찬님이 공개한 라이브러리를 수정한 버전이다.  
 
        
